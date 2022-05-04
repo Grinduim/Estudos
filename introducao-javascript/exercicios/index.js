@@ -1,0 +1,1 @@
+var prato = document.querySelector(".prato-do-dia")
