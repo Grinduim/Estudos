@@ -1,35 +1,45 @@
-var titulo = document.querySelector('.titulo');
-titulo.textContent = "Aparecida Nutricionista"
+var titulo = document.querySelector(".titulo");
+titulo.textContent = "Aparecida Nutricionista";
 
-var pacientes = document.querySelectorAll('.paciente');
-console.log(pacientes);
-console.log('antes do for')
+var pacientes = document.querySelectorAll(".paciente");
+
 for (var i = 0; i < pacientes.length; i++) {
+
     var paciente = pacientes[i];
 
-    var ValorAltura = paciente.querySelector('.info-altura').textContent;
-    var ValorPeso = paciente.querySelector('.info-peso').textContent;
-    var ValorIMC = paciente.querySelector('.info-imc');
+    var tdPeso = paciente.querySelector(".info-peso");
+    var peso = tdPeso.textContent;
 
-    var PesoEhValido = true;
-    var AlturaEhValida = true;
+    var tdAltura = paciente.querySelector(".info-altura");
+    var altura = tdAltura.textContent;
 
-    if (ValorPeso <= 0 || ValorPeso >= 1000) {
-        PesoEhValido = false;
-    }
-    if (ValorAltura <= 0 && ValorAltura >= 3.00) {
-        AlturaEhValida = false;
-    }
+    var tdImc = paciente.querySelector(".info-imc");
 
-    if (AlturaEhValida && PesoEhValido) {
-        var IMC = ValorPeso / (ValorAltura * ValorAltura);
-        ValorIMC.textContent = IMC.toFixed(2);
-    }
-    else {
-        ValorIMC.textContent ="Peso ou/e Altura inválido";
-        paciente.classList.add('paciente-invalido');
+    var pesoEhValido = true;
+    var alturaEhValida = true;
+
+    if (peso <= 0 || peso >= 1000) {
+        console.log("Peso inválido!");
+        pesoEhValido = false;
+        tdImc.textContent = "Peso inválido";
+        paciente.classList.add("paciente-invalido");
     }
 
+    if (altura <= 0 || altura >= 3.00) {
+        console.log("Altura inválida!");
+        alturaEhValida = false;
+        tdImc.textContent = "Altura inválida";
+        paciente.classList.add("paciente-invalido");
+    }
+
+    if (pesoEhValido && alturaEhValida) {
+        tdImc.textContent = CalcularIMC(peso, altura);
+    }
 }
 
 
+function CalcularIMC(peso,altura){
+    var imc;
+    imc = peso / (altura * altura);
+    return imc.toFixed(2);
+}
