@@ -5,6 +5,13 @@ botao.addEventListener("click", function(event) {
     var paciente = obtemPacienteDoFormulario(form);
     var pacienteTr = MontarTr(paciente);   
 
+    var erros =  validaPaciente(paciente);
+    if(erros.length > 0){
+        exibeErros(erros);
+        return;
+    }else{
+        limpaErros();
+    }
     document.querySelector("#tabela-pacientes").appendChild(pacienteTr);
 
     form.reset();
@@ -30,18 +37,18 @@ function MontarTr(paciente) {
 
     var tdPeso = MontaTd(paciente.peso, "info-peso");
 
-    var tdAltura = montaTd(paciente.altura, "info-altura");
+    var tdAltura = MontaTd(paciente.altura, "info-altura");
 
-    var tdGordura = montaTd(paciente.gordura, "info-gordura");
+    var tdGordura = MontaTd(paciente.gordura, "info-gordura");
 
-    var tdImc = montaTd(paciente.imc, "info-imc");
+    var tdImc = MontaTd(paciente.imc, "info-imc");
 
     pacienteTr.appendChild(tdNome);
     pacienteTr.appendChild(tdPeso);
     pacienteTr.appendChild(tdAltura);
     pacienteTr.appendChild(tdGordura);
     pacienteTr.appendChild(tdImc);
-
+ 
     return pacienteTr;
 }
 
@@ -50,4 +57,39 @@ function MontaTd(dado, classe) {
     td.textContent = dado;
     td.classList.add(classe);
     return td;
+}
+
+ 
+function validaPaciente(paciente){
+    var erros = []
+    if(paciente.nome.length == 0){
+        erros.push("O nome não pode ser em branco!");
+    }
+    if(!validaPeso(paciente.peso)){
+        erros.push("Peso é invalido !")
+    }
+
+    if(!validaAltura(paciente.altura)){
+        erros.push("Altura é invalido !")
+    }
+    if(paciente.gordura.length == 0){
+        erros.push("A gordura não pode ser em branco !")
+    }
+    return erros
+}
+
+
+function exibeErros(erros){
+    limpaErros()
+    var ul = document.querySelector("#mensagem-erro")
+    erros.forEach(function(erro){
+        var li = document.createElement('li');
+        li.textContent = erro
+        ul.appendChild(li);
+    });
+}
+
+function limpaErros(){
+    var ul = document.querySelector("#mensagem-erro")
+    ul.innerHTML = "";
 }
