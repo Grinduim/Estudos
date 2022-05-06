@@ -9,8 +9,6 @@ tabela.addEventListener("dblclick",function(event){
             
             event.target.parentNode.remove();
         },500);
-    }
-    
-    
+    } 
 });
  
